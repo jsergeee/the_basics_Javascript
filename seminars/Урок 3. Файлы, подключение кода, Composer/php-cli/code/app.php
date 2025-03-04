@@ -8,6 +8,6 @@
 require_once('vendor/autoload.php');
 
 // вызов корневой функции
-$result = main("/code/config.ini");
+$result = main("config.ini");
 // вывод результата
 echo $result;

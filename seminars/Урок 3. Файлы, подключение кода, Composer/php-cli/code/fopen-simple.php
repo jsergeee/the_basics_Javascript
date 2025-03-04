@@ -1,6 +1,6 @@
 <?php
 
-$file = fopen("/code/example.txt", "rb");
+$file = fopen("code\file.txt", "rb");
 if ($file === false) {
     echo("Файл невозможно открыть или он не существует");
 }

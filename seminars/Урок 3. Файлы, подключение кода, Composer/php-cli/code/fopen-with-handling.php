@@ -1,6 +1,6 @@
 <?php
 
-$address = "/code/example1.txt";
+$address = "code\example.txt";
 
 if (file_exists($address) && is_readable($address)) {
     $file = fopen($address, "rb");
