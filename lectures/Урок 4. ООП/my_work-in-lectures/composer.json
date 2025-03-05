@@ -1,0 +1,11 @@
+{
+    "name": "app/oop",
+    "require-dev": {
+        "php": "8.2",
+        "openai-php/client": "1",
+        "#": "#",
+        "composer-plugin-api": "^2.6",
+        "monolog/monolog": "^3.8"
+    },
+    "require": {}
+}
