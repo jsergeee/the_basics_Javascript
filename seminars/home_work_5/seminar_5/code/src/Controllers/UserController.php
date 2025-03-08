@@ -51,4 +51,27 @@ class UserController {
         $data = $user->getUserName() . "," . date('Y-m-d', $user->getUserBirthday()) . PHP_EOL;
         file_put_contents($address, $data, FILE_APPEND);
     }
+
+    public function actionSave()
+    {
+
+        $address = "./storage/birthdays.txt";
+
+        $name = $_GET['name'];
+
+        $date = $_GET['birthday'];
+
+        $data = $name . ", " . $date . "\r\n";
+
+        $fileHandler = fopen($address, 'a');
+
+        if (fwrite($fileHandler, $data)) {
+
+            return "Запись $data добавлена в файл $address";
+        } else {
+
+            return "Произошла ошибка записи. Данные не сохранены";
+        }
+    }
+
 }
