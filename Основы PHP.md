@@ -1,8 +1,167 @@
 
 
+# Урок 1
+
+запуск docker-compose:
+
+```
+docker-compose up
+```
 
 
 
+
+
+Ваши конфигурационные файлы для Docker и Nginx выглядят в целом правильно, но давайте проверим несколько ключевых моментов, чтобы убедиться, что все будет работать корректно.
+
+▎1. Проверка конфигурации Nginx
+
+Убедитесь, что файл конфигурации Nginx (например, mysite.local.conf) правильно настроен. Ваша конфигурация выглядит хорошо, но убедитесь, что:
+
+• Файл конфигурации Nginx копируется в правильное место в образе.
+
+• В конфигурации Nginx используется правильное имя контейнера для PHP-FPM.
+
+Пример конфигурации Nginx:
+
+server {
+    listen 80;
+    server_name mysite.local;
+
+    root /data/mysite.local;
+    index index.php index.html;
+    
+    location / {
+        try_files $uri $uri/ /index.php?$query_string;
+    }
+    
+    location ~ \.php$ {
+        include fastcgi_params;
+        fastcgi_pass application:9000;  # Убедитесь, что это имя вашего контейнера PHP-FPM
+        fastcgi_index index.php;
+        fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
+    }
+    
+    location ~* \.(jpg|jpeg|gif|css|png|js|ico|html)$ {
+        access_log off;
+        expires max;
+    }
+}
+
+
+▎2. Проверка Dockerfile для Nginx
+
+Убедитесь, что ваш Dockerfile для Nginx настроен правильно и копирует файл конфигурации:
+
+FROM nginx:latest
+
+COPY mysite.local.conf /etc/nginx/conf.d/default.conf
+
+
+▎3. Проверка Dockerfile для PHP-FPM
+
+Убедитесь, что ваш Dockerfile для PHP-FPM настроен правильно. Пример:
+
+FROM php:8.2-fpm
+
+COPY ./php.ini /usr/local/etc/php/conf.d/php-custom.ini
+
+RUN apt-get update && apt-get install -y zip unzip
+
+WORKDIR /data
+
+VOLUME /data
+
+CMD ["php-fpm"]
+
+
+▎4. Проверка файла docker-compose.yml
+
+Ваш файл docker-compose.yml выглядит правильно, но убедитесь, что все пути к контекстам и файлам указаны верно:
+
+version: '3'
+
+services:
+  nginx:
+    build:
+      context: ./nginx
+      dockerfile: Dockerfile
+    image: myapp/nginx
+    container_name: webserver
+    ports:
+      - "80:80"
+    volumes:
+       - ./code:/data/mysite.local
+    networks:
+      - app-network
+
+  application:
+    build:
+      context: ./fpm
+      dockerfile: Dockerfile
+    image: myapp/php
+    container_name: application
+    volumes:
+       - ./code:/data/mysite.local
+    networks:
+      - app-network
+
+  cli:
+    build:
+      context: ./cli
+      dockerfile: Dockerfile
+    image: myapp/php-cli
+    container_name: cli
+    volumes:
+       - ./code:/data/mysite.local
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge
+
+
+▎5. Проверка файла hosts
+
+Убедитесь, что в вашем файле hosts есть запись для mysite.local:
+
+127.0.0.1 mysite.local
+
+
+▎6. Пересоберите и перезапустите контейнеры
+
+После внесения всех изменений, выполните следующие команды для пересборки и перезапуска контейнеров:
+
+docker-compose down
+docker-compose up --build -d
+
+
+▎7. Проверка состояния контейнеров
+
+Проверьте, что все контейнеры работают:
+
+docker ps
+
+
+▎8. Проверка логов
+
+Если контейнер Nginx не запускается или вы видите ошибки, проверьте логи:
+
+docker logs webserver
+
+
+▎9. Проверка сетевого взаимодействия
+
+Убедитесь, что контейнеры могут общаться друг с другом. Вы можете войти в контейнер Nginx и проверить доступность контейнера PHP-FPM:
+
+docker exec -it webserver /bin/sh
+ping application
+
+
+▎10. Проверка доступа
+
+Попробуйте открыть http://mysite.local в вашем браузере. Если все настроено правильно, вы должны увидеть вашу веб-стра
 
 
 
