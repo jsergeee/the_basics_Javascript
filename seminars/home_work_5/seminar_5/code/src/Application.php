@@ -63,7 +63,7 @@ class Application
     public function actionIndex()
     {
         $render = new Render();
-        $cssPath = 'C:\Users\1\Обучение_в _GB\Basics_PHP\seminars\home_work_5\seminar_5\code\src\style\style.css';
+        $cssPath = 'seminars\home_work_5\seminar_5\code\src\Views\style.css';
 
         return $render->renderPage(
             'user-index.twig',

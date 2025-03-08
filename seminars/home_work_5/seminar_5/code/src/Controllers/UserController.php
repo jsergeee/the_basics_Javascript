@@ -46,7 +46,7 @@ class UserController {
         }
     }
 
-    private function saveUserToStorage(User $user) { // Исправлено название метода
+    private function saveUserToStorage(User $user) {
         $address = $_SERVER['DOCUMENT_ROOT'] . User::$storageAddress; // Используем статическое свойство
         $data = $user->getUserName() . "," . date('Y-m-d', $user->getUserBirthday()) . PHP_EOL;
         file_put_contents($address, $data, FILE_APPEND);
