@@ -28,15 +28,21 @@
 
 //Напишите программу, которая запрашивает у пользователя три числа и выводит максимальное из них.
 
-let getNubForMax1 = Number(prompt("Введите число 1"));
-let getNubForMax2 = Number(prompt("Введите число 2"));
-let getNubForMax3= Number(prompt("Введите число 3"));
+// let getNubForMax1 = Number(prompt("Введите число 1"));
+// let getNubForMax2 = Number(prompt("Введите число 2"));
+// let getNubForMax3= Number(prompt("Введите число 3"));
 
-let max = Math.max(getNubForMax1, getNubForMax2, getNubForMax3);
+// let max = Math.max(getNubForMax1, getNubForMax2, getNubForMax3);
 
-alert(`Максимальное число: ${max}`);
+// alert(`Максимальное число: ${max}`);
 
 //Напишите программу, которая запрашивает у пользователя число и выводит таблицу умножения для этого числа от 1 до 10.
 
+let getNum = Number(prompt("Введите число"));
+
+for (let i = 0; i <= 10; i++) {
+    console.log(`${getNum} * ${i} = ${getNum * i}`);
+    
+}
 
 //Напишите программу, которая запрашивает у пользователя число N и выводит сумму всех чисел от 1 до N.
