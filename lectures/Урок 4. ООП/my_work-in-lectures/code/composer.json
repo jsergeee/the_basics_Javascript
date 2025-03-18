@@ -1,9 +1,0 @@
-{
-    "name": "app/oop",
-    "autoload": {
-        "psr-4": {
-            "App\\Oop\\": "src/"
-        }
-    },
-    "require": {}
-}
