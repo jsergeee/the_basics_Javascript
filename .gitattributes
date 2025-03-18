@@ -1,0 +1,2 @@
+seminars/home_work7/db/ibdata1 filter=lfs diff=lfs merge=lfs -text
+seminars/home_work6/db/ibdata1 filter=lfs diff=lfs merge=lfs -text
